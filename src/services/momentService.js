@@ -25,4 +25,38 @@ const show = async (momentId) => {
   }
 };
 
-export { index, show };
+// Create a new moment
+const create = async (momentData) => {
+  try {
+    const res = await fetch(BASE_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+      body: JSON.stringify(momentData),
+    });
+    return res.json();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// Update an existing moment
+const update = async (momentId, momentData) => {
+  try {
+    const res = await fetch(`${BASE_URL}/${momentId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+      body: JSON.stringify(momentData),
+    });
+    return res.json();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export { index, show, create, update };
