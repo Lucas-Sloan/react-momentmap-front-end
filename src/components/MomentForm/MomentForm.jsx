@@ -54,9 +54,9 @@ const MomentForm = ({ initialData = {}, onSubmit }) => {
         />
       </div>
       <div>
-        <label htmlFor="date">Date:</label>
+        <label htmlFor="date">Date and Time:</label>
         <input
-          type="date"
+          type="datetime-local"
           id="date"
           name="date"
           value={formData.date}

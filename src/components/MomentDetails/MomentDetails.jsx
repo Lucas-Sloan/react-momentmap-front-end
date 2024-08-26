@@ -3,14 +3,17 @@ import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import * as momentService from '../../services/momentService';
 import * as guestService from '../../services/guestService';
+import * as scheduleService from '../../services/scheduleService';
 import MomentForm from '../MomentForm/MomentForm';
 import GuestForm from '../GuestForm/GuestForm';
+import ScheduleForm from '../ScheduleForm/ScheduleForm';
 
 const MomentDetails = () => {
   const { momentId } = useParams();
   const [moment, setMoment] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [isAddingGuest, setIsAddingGuest] = useState(false);
+  const [isAddingSchedule, setIsAddingSchedule] = useState(false);
 
   useEffect(() => {
     const fetchMomentDetails = async () => {
@@ -33,6 +36,10 @@ const MomentDetails = () => {
     setIsAddingGuest(!isAddingGuest);
   };
 
+  const handleScheduleToggle = () => {
+    setIsAddingSchedule(!isAddingSchedule);
+  };
+
   const handleFormSubmit = async (updatedMoment) => {
     try {
       const updated = await momentService.update(momentId, updatedMoment);
@@ -50,6 +57,16 @@ const MomentDetails = () => {
       setIsAddingGuest(false);
     } catch (error) {
       console.error('Error adding guest:', error);
+    }
+  };
+
+  const handleScheduleSubmit = async (scheduleData) => {
+    try {
+      const newEvent = await scheduleService.create(momentId, scheduleData); 
+      setMoment({ ...moment, schedule: [...moment.schedule, newEvent] });
+      setIsAddingSchedule(false);
+    } catch (error) {
+      console.error('Error adding event to schedule:', error);
     }
   };
 
@@ -101,6 +118,12 @@ const MomentDetails = () => {
             </section>
             <section>
               <h2>Schedule</h2>
+              <button onClick={handleScheduleToggle}>
+                {isAddingSchedule ? 'Cancel' : 'Add Event'}
+              </button>
+              {isAddingSchedule && (
+                <ScheduleForm onSubmit={handleScheduleSubmit} />
+              )}
               {moment.schedule.length > 0 ? (
                 <ul>
                   {moment.schedule.map((event, index) => (
