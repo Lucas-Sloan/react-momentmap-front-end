@@ -9,6 +9,7 @@ import SigninForm from './components/SigninForm/SigninForm';
 import * as authService from '../src/services/authService'; // import the authservice
 import MomentList from './components/MomentList/MomentList';
 import * as momentService from './services/momentService';
+import MomentDetails from './components/MomentDetails/MomentDetails';
 
 export const AuthedUserContext = createContext(null);
 
@@ -40,6 +41,7 @@ const App = () => {
               <>
                 <Route path="/" element={<Dashboard user={user} />} />
                 <Route path="/moments" element={<MomentList moments={moments} />} />
+                <Route path="/moments/:momentId" element={<MomentDetails />} />
               </>
           ) : (
             <Route path="/" element={<Landing />} />
