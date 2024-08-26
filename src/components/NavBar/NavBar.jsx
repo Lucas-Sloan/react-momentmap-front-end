@@ -1,3 +1,4 @@
+// src/components/NavBar/NavBar.jsx
 import { Link } from 'react-router-dom';
 import { AuthedUserContext } from '../../App';
 import { useContext } from 'react';
@@ -13,6 +14,7 @@ const NavBar = ({ handleSignout }) => {
             <li>
               <Link to="/">Dashboard</Link>
             </li>
+            <li><Link to='/moments'>Moments</Link></li>
             <li>
               <Link to="" onClick={handleSignout}>
                 Sign Out
