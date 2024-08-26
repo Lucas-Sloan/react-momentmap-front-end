@@ -2,17 +2,20 @@
 import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import * as momentService from '../../services/momentService';
-import MomentForm from '../MomentForm/MomentForm'; // Import MomentForm
+import * as guestService from '../../services/guestService';
+import MomentForm from '../MomentForm/MomentForm';
+import GuestForm from '../GuestForm/GuestForm';
 
 const MomentDetails = () => {
   const { momentId } = useParams();
   const [moment, setMoment] = useState(null);
-  const [isEditing, setIsEditing] = useState(false); // State to toggle between view and edit mode
+  const [isEditing, setIsEditing] = useState(false);
+  const [isAddingGuest, setIsAddingGuest] = useState(false);
 
   useEffect(() => {
     const fetchMomentDetails = async () => {
       try {
-        const momentData = await momentService.show(momentId); // Fetch the moment by ID
+        const momentData = await momentService.show(momentId); 
         setMoment(momentData);
       } catch (error) {
         console.error('Error fetching moment details:', error);
@@ -23,16 +26,30 @@ const MomentDetails = () => {
   }, [momentId]);
 
   const handleEditToggle = () => {
-    setIsEditing(!isEditing); // Toggle the edit mode
+    setIsEditing(!isEditing);
+  };
+
+  const handleGuestToggle = () => {
+    setIsAddingGuest(!isAddingGuest);
   };
 
   const handleFormSubmit = async (updatedMoment) => {
     try {
       const updated = await momentService.update(momentId, updatedMoment);
       setMoment(updated);
-      setIsEditing(false); // Exit edit mode after successful update
+      setIsEditing(false);
     } catch (error) {
       console.error('Error updating moment:', error);
+    }
+  };
+
+  const handleGuestSubmit = async (guestData) => {
+    try {
+      const newGuest = await guestService.create(momentId, guestData); 
+      setMoment({ ...moment, guests: [...moment.guests, newGuest] });
+      setIsAddingGuest(false);
+    } catch (error) {
+      console.error('Error adding guest:', error);
     }
   };
 
@@ -64,6 +81,12 @@ const MomentDetails = () => {
             </p>
             <section>
               <h2>Guests</h2>
+              <button onClick={handleGuestToggle}>
+                {isAddingGuest ? 'Cancel' : 'Add Guest'}
+              </button>
+              {isAddingGuest && (
+                <GuestForm onSubmit={handleGuestSubmit} />
+              )}
               {moment.guests.length > 0 ? (
                 <ul>
                   {moment.guests.map((guest) => (
@@ -98,3 +121,4 @@ const MomentDetails = () => {
 };
 
 export default MomentDetails;
+
