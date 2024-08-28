@@ -1,11 +1,10 @@
 /* src/components/MomentList/MomentList.css */
 
-.moment-list-container {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
-  
+.moment-card-link {
+    text-decoration: none;
+    color: inherit;
+}
+
 .moment-card {
     background-color: #1a1a1a;
     padding: 15px;
@@ -16,8 +15,15 @@
     flex-direction: column;
     align-items: center;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.8);
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: pointer;
 }
-  
+
+.moment-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.9);
+}
+
 .moment-card img {
     max-width: 300px;
     max-height: 300px;
@@ -26,6 +32,4 @@
     object-fit: contain;
     border-radius: 5px;
     margin-bottom: 10px;
-}
-  
-  
+} 

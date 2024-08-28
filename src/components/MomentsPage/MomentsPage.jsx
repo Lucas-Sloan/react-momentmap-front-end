@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import MomentList from '../../components/MomentList/MomentList';
 import MomentForm from '../../components/MomentForm/MomentForm';
 import * as momentService from '../../services/momentService';
+import './MomentsPage.css';
 
 const MomentsPage = () => {
   const [moments, setMoments] = useState([]);
@@ -11,7 +12,8 @@ const MomentsPage = () => {
   useEffect(() => {
     const fetchMoments = async () => {
       const fetchedMoments = await momentService.index();
-      setMoments(fetchedMoments);
+      const sortedMoments = fetchedMoments.sort((a, b) => new Date(a.date) - new Date(b.date));
+      setMoments(sortedMoments);
     };
     fetchMoments();
   }, []);
@@ -23,7 +25,8 @@ const MomentsPage = () => {
   const handleFormSubmit = async (newMomentData) => {
     try {
       const newMoment = await momentService.create(newMomentData);
-      setMoments([...moments, newMoment]);
+      const updatedMoments = [...moments, newMoment].sort((a, b) => new Date(a.date) - new Date(b.date));
+      setMoments(updatedMoments);
       setIsCreating(false);
     } catch (error) {
       console.error('Error creating moment:', error);

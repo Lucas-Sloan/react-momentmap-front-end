@@ -6,7 +6,6 @@ import Landing from './components/Landing/Landing';
 import Dashboard from './components/Dashboard/Dashboard';
 import SignupForm from './components/SignupForm/SignupForm';
 import SigninForm from './components/SigninForm/SigninForm';
-import MomentList from './components/MomentList/MomentList';
 import MomentDetails from './components/MomentDetails/MomentDetails';
 import MomentForm from './components/MomentForm/MomentForm';
 import MomentCalendar from './components/MomentCalendar/MomentCalendar';
@@ -91,7 +90,7 @@ const App = () => {
         {user ? (
           <>
             <Route path="/" element={<Dashboard user={user} />} />
-            <Route path="/moments" element={<MomentList moments={moments} />} />
+            <Route path="/moments" element={<MomentsPage />} />
             <Route path="/moments/:momentId" element={<MomentDetails />} />
             <Route 
               path="/moments/new" 
@@ -115,6 +114,7 @@ const App = () => {
 };
 
 export default App;
+
 
 
 

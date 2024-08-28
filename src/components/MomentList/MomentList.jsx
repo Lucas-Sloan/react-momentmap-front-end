@@ -6,12 +6,14 @@ const MomentList = ({ moments }) => {
   return (
     <div className="moment-list-container">
       {moments.map((moment) => (
-        <div key={moment._id} className="moment-card">
-          {moment.image && <img src={moment.image} alt={moment.title} />}
-          <h3>{moment.title}</h3>
-          <p>{new Date(moment.date).toLocaleDateString()}</p>
-          <p>{moment.description}</p>
-        </div>
+        <Link to={`/moments/${moment._id}`} key={moment._id} className="moment-card-link">
+          <div className="moment-card">
+            {moment.image && <img src={moment.image} alt={moment.title} />}
+            <h3>{moment.title}</h3>
+            <p>{new Date(moment.date).toLocaleDateString()}</p>
+            <p>{moment.description}</p>
+          </div>
+        </Link>
       ))}
     </div>
   );
