@@ -1,7 +1,8 @@
 // src/components/GuestForm/GuestForm.jsx
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-const GuestForm = ({ onSubmit }) => {
+
+const GuestForm = ({ initialData = {}, onSubmit, onCancel, isEditing }) => {
   const [guestData, setGuestData] = useState({
     firstName: '',
     lastName: '',
@@ -10,6 +11,21 @@ const GuestForm = ({ onSubmit }) => {
     RSVP: false,
     plusOne: false,
   });
+
+  useEffect(() => {
+    if (isEditing) {
+      setGuestData(initialData);
+    } else {
+      setGuestData({
+        firstName: '',
+        lastName: '',
+        email: '',
+        message: '',
+        RSVP: false,
+        plusOne: false,
+      });
+    }
+  }, [initialData, isEditing]);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -22,6 +38,9 @@ const GuestForm = ({ onSubmit }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     onSubmit(guestData);
+  };
+
+  const handleCancel = () => {
     setGuestData({
       firstName: '',
       lastName: '',
@@ -30,6 +49,7 @@ const GuestForm = ({ onSubmit }) => {
       RSVP: false,
       plusOne: false,
     });
+    onCancel();
   };
 
   return (
@@ -96,7 +116,14 @@ const GuestForm = ({ onSubmit }) => {
           onChange={handleChange}
         />
       </div>
-      <button type="submit">Add Guest</button>
+      <div className="form-actions">
+        <button type="submit">Submit</button>
+        {isEditing && (
+          <button type="button" onClick={handleCancel}>
+            Cancel Edit
+          </button>
+        )}
+      </div>
     </form>
   );
 };

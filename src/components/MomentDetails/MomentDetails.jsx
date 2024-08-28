@@ -1,5 +1,5 @@
 // src/components/MomentDetails/MomentDetails.jsx
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import * as momentService from '../../services/momentService';
 import * as guestService from '../../services/guestService';
@@ -7,18 +7,19 @@ import * as scheduleService from '../../services/scheduleService';
 import MomentForm from '../MomentForm/MomentForm';
 import GuestForm from '../GuestForm/GuestForm';
 import ScheduleForm from '../ScheduleForm/ScheduleForm';
+import './MomentDetails.css';
 
 const MomentDetails = () => {
   const { momentId } = useParams();
+  const navigate = useNavigate();
   const [moment, setMoment] = useState(null);
-  const [isEditing, setIsEditing] = useState(false);
-  const [isAddingGuest, setIsAddingGuest] = useState(false);
-  const [isAddingSchedule, setIsAddingSchedule] = useState(false);
+  const [editingGuest, setEditingGuest] = useState(null);
+  const [editingSchedule, setEditingSchedule] = useState(null);
 
   useEffect(() => {
     const fetchMomentDetails = async () => {
       try {
-        const momentData = await momentService.show(momentId); 
+        const momentData = await momentService.show(momentId);
         setMoment(momentData);
       } catch (error) {
         console.error('Error fetching moment details:', error);
@@ -28,23 +29,11 @@ const MomentDetails = () => {
     fetchMomentDetails();
   }, [momentId]);
 
-  const handleEditToggle = () => {
-    setIsEditing(!isEditing);
-  };
-
-  const handleGuestToggle = () => {
-    setIsAddingGuest(!isAddingGuest);
-  };
-
-  const handleScheduleToggle = () => {
-    setIsAddingSchedule(!isAddingSchedule);
-  };
-
   const handleFormSubmit = async (updatedMoment) => {
     try {
       const updated = await momentService.update(momentId, updatedMoment);
       setMoment(updated);
-      setIsEditing(false);
+      navigate('/moments');
     } catch (error) {
       console.error('Error updating moment:', error);
     }
@@ -52,96 +41,169 @@ const MomentDetails = () => {
 
   const handleGuestSubmit = async (guestData) => {
     try {
-      const newGuest = await guestService.create(momentId, guestData); 
-      setMoment({ ...moment, guests: [...moment.guests, newGuest] });
-      setIsAddingGuest(false);
+      let updatedGuests;
+      if (editingGuest) {
+        updatedGuests = moment.guests.map((guest) =>
+          guest._id === editingGuest._id ? { ...guest, ...guestData } : guest
+        );
+        await guestService.update(momentId, editingGuest._id, guestData);
+        setEditingGuest(null);
+      } else {
+        const newGuest = await guestService.create(momentId, guestData);
+        updatedGuests = [...moment.guests, newGuest];
+      }
+      setMoment({ ...moment, guests: updatedGuests });
     } catch (error) {
-      console.error('Error adding guest:', error);
+      console.error('Error adding or updating guest:', error);
     }
   };
 
   const handleScheduleSubmit = async (scheduleData) => {
     try {
-      const newEvent = await scheduleService.create(momentId, scheduleData); 
-      setMoment({ ...moment, schedule: [...moment.schedule, newEvent] });
-      setIsAddingSchedule(false);
+      let updatedSchedule;
+      if (editingSchedule) {
+        updatedSchedule = moment.schedule.map((event) =>
+          event._id === editingSchedule._id ? { ...event, ...scheduleData } : event
+        );
+        await scheduleService.update(momentId, editingSchedule._id, scheduleData);
+        setEditingSchedule(null);
+      } else {
+        const newEvent = await scheduleService.create(momentId, scheduleData);
+        updatedSchedule = [...moment.schedule, newEvent];
+      }
+      setMoment({ ...moment, schedule: updatedSchedule });
     } catch (error) {
-      console.error('Error adding event to schedule:', error);
+      console.error('Error adding or updating event:', error);
+    }
+  };
+
+  const handleDeleteGuest = async (guestId) => {
+    try {
+      await guestService.remove(momentId, guestId);
+      setMoment({
+        ...moment,
+        guests: moment.guests.filter((guest) => guest._id !== guestId),
+      });
+    } catch (error) {
+      console.error('Error deleting guest:', error);
+    }
+  };
+
+  const handleDeleteSchedule = async (eventId) => {
+    try {
+      await scheduleService.remove(momentId, eventId);
+      setMoment({
+        ...moment,
+        schedule: moment.schedule.filter((event) => event._id !== eventId),
+      });
+    } catch (error) {
+      console.error('Error deleting schedule event:', error);
+    }
+  };
+
+  const handleEditGuest = (guest) => {
+    setEditingGuest(guest);
+  };
+
+  const handleEditSchedule = (event) => {
+    setEditingSchedule(event);
+  };
+
+  const handleDeleteMoment = async () => {
+    try {
+      await momentService.remove(momentId);
+      navigate('/moments');
+    } catch (error) {
+      console.error('Error deleting moment:', error);
     }
   };
 
   if (!moment) return <p>Loading...</p>;
 
   return (
-    <main>
-      <article>
-        <header>
-          <h1>{moment.title}</h1>
-          <p>
-            {moment.createdBy?.username} posted on {new Date(moment.createdAt).toLocaleDateString()}
-          </p>
-          <button onClick={handleEditToggle}>
-            {isEditing ? 'Cancel Edit' : 'Edit Moment'}
-          </button>
-        </header>
-        {isEditing ? (
+    <main className="moment-details-container">
+      <header>
+        <h1>Manage Your Moment</h1>
+      </header>
+      <div className="moment-forms">
+        <div className="moment-edit">
+          <h2>Edit your Moment</h2>
           <MomentForm initialData={moment} onSubmit={handleFormSubmit} />
-        ) : (
-          <>
-            {moment.image && <img src={moment.image} alt={moment.title} />}
-            <p>{moment.description}</p>
-            <p>
-              <strong>Date:</strong> {new Date(moment.date).toLocaleString()}
-            </p>
-            <p>
-              <strong>Location:</strong> {moment.location}
-            </p>
-            <section>
-              <h2>Guests</h2>
-              <button onClick={handleGuestToggle}>
-                {isAddingGuest ? 'Cancel' : 'Add Guest'}
-              </button>
-              {isAddingGuest && (
-                <GuestForm onSubmit={handleGuestSubmit} />
-              )}
-              {moment.guests.length > 0 ? (
-                <ul>
-                  {moment.guests.map((guest) => (
-                    <li key={guest._id}>
-                      {guest.firstName} {guest.lastName} - RSVP: {guest.RSVP ? 'Yes' : 'No'}
-                    </li>
-                  ))}
-                </ul>
-              ) : (
-                <p>No guests added yet.</p>
-              )}
-            </section>
-            <section>
-              <h2>Schedule</h2>
-              <button onClick={handleScheduleToggle}>
-                {isAddingSchedule ? 'Cancel' : 'Add Event'}
-              </button>
-              {isAddingSchedule && (
-                <ScheduleForm onSubmit={handleScheduleSubmit} />
-              )}
-              {moment.schedule.length > 0 ? (
-                <ul>
-                  {moment.schedule.map((event, index) => (
-                    <li key={index}>
-                      {event.time} - {event.eventDescription}
-                    </li>
-                  ))}
-                </ul>
-              ) : (
-                <p>No events scheduled yet.</p>
-              )}
-            </section>
-          </>
-        )}
-      </article>
+        </div>
+
+        <div className="guest-form">
+          <h2>Add or Edit a Guest</h2>
+          <GuestForm
+            initialData={editingGuest || {}}
+            onSubmit={handleGuestSubmit}
+            onCancel={() => setEditingGuest(null)}
+            isEditing={!!editingGuest}
+          />
+        </div>
+
+        <div className="schedule-form">
+          <h2>Schedule</h2>
+          <ScheduleForm
+            initialData={editingSchedule || {}}
+            onSubmit={handleScheduleSubmit}
+            onCancel={() => setEditingSchedule(null)}
+            isEditing={!!editingSchedule}
+          />
+
+          {moment.schedule.length > 0 ? (
+            <table className="schedule-table">
+              <thead>
+                <tr>
+                  <th>Time</th>
+                  <th>Event Description</th>
+                  <th>Edit</th>
+                  <th>Delete</th>
+                </tr>
+              </thead>
+              <tbody>
+                {moment.schedule.map((event) => (
+                  <tr key={event._id}>
+                    <td>{event.time}</td>
+                    <td>{event.eventDescription}</td>
+                    <td>
+                      <button onClick={() => handleEditSchedule(event)}>Edit</button>
+                    </td>
+                    <td>
+                      <button onClick={() => handleDeleteSchedule(event._id)}>Delete</button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ) : (
+            <p>No events scheduled yet.</p>
+          )}
+        </div>
+      </div>
+
+      <div className="guest-list">
+        <h2>Guest List:</h2>
+        <div className="guest-list-grid">
+          {moment.guests.length > 0 ? (
+            moment.guests.map((guest) => (
+              <div key={guest._id} className="guest-card">
+                <p>
+                  {guest.firstName} {guest.lastName} {guest.RSVP && <span>✔️ RSVP</span>}
+                  {guest.plusOne && <span> +1</span>}
+                </p>
+                <button onClick={() => handleEditGuest(guest)}>Edit</button>
+                <button onClick={() => handleDeleteGuest(guest._id)}>Delete</button>
+              </div>
+            ))
+          ) : (
+            <p>No guests added yet.</p>
+          )}
+        </div>
+      </div>
+
+      <button className="delete-button" onClick={handleDeleteMoment}>Delete Moment</button>
     </main>
   );
 };
 
 export default MomentDetails;
-

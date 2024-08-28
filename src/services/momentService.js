@@ -59,4 +59,19 @@ const update = async (momentId, momentData) => {
   }
 };
 
-export { index, show, create, update };
+// Delete a moment
+const remove = async (momentId) => {
+  try {
+    const res = await fetch(`${BASE_URL}/${momentId}`, {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    });
+    return res.json();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export { index, show, create, update, remove };

@@ -1,8 +1,7 @@
 // src/components/MomentForm/MomentForm.jsx
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import * as momentService from '../../services/momentService';
 import './MomentForm.css';
 
 const MomentForm = ({ initialData = {}, onSubmit }) => {
@@ -16,6 +15,21 @@ const MomentForm = ({ initialData = {}, onSubmit }) => {
 
   const navigate = useNavigate();
 
+  useEffect(() => {
+    if (initialData.date) {
+      const date = new Date(initialData.date);
+
+      const localISOTime = new Date(date.getTime() - date.getTimezoneOffset() * 60000)
+        .toISOString()
+        .slice(0, 16);
+
+      setFormData((prevData) => ({
+        ...prevData,
+        date: localISOTime,
+      }));
+    }
+  }, [initialData]);
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -25,7 +39,7 @@ const MomentForm = ({ initialData = {}, onSubmit }) => {
     try {
       const response = await onSubmit(formData);
       if (response) {
-        navigate('/moments'); // Redirect to the moments list after successful submission
+        navigate('/moments');
       }
     } catch (error) {
       console.error('Error submitting form:', error);

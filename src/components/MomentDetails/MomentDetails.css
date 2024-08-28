@@ -1,0 +1,121 @@
+/* src/components/MomentDetails/MomentDetails.css */
+.moment-details-container {
+    padding: 20px;
+    background-color: #121212;
+    color: #ffffff;
+}
+  
+.moment-forms {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+h2 {
+    text-align: center;
+}
+
+.moment-edit,
+.guest-form,
+.schedule-form {
+    width: 32%;
+    background-color: #1a1a1a;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.8);
+}
+  
+.schedule-table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+}
+  
+.schedule-table th,
+.schedule-table td {
+    border: 1px solid #333;
+    padding: 8px;
+    text-align: left;
+}
+  
+.schedule-table th {
+    background-color: #333;
+}
+  
+.schedule-table td {
+    background-color: #1a1a1a;
+    color: #ffffff;
+}
+  
+.schedule-table td button {
+    background-color: #ff4d4d;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+  
+.guest-list {
+    margin-top: 30px;
+}
+
+.guest-list-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+  
+.guest-card {
+    background-color: #1a1a1a;
+    padding: 10px;
+    border-radius: 5px;
+    color: #ffffff;
+    width: calc(33.3333% - 20px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+  
+.guest-card button {
+    background-color: #ff4d4d;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+  
+.delete-button {
+    background-color: #ff4d4d;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.form-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+  
+.form-actions button {
+    padding: 5px 10px;
+    background-color: #444;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+  
+.form-actions button:hover {
+    background-color: #666;
+}
+  
