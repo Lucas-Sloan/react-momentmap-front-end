@@ -4,8 +4,9 @@ import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import * as momentService from '../../services/momentService';
 import * as calendarService from '../../services/calendarService';
+import './MomentCalendar.css';
 
-const MomentCalendar = () => {
+const MomentCalendar = ({ showControls = true, showTitle = true }) => {
   const [moments, setMoments] = useState([]);
   const [selectedDate, setSelectedDate] = useState(new Date());
 
@@ -55,23 +56,26 @@ const MomentCalendar = () => {
 
   return (
     <div>
-      <h2>Moment Calendar</h2>
+      {showTitle && <h2>Moment Calendar</h2>}
       <Calendar
         onChange={onDateChange}
         value={selectedDate}
         tileContent={({ date, view }) => view === 'month' && renderMomentsOnDate(date)}
       />
-      {/* Button to start the Google OAuth flow */}
-      <button onClick={handleGoogleAuth}>
-        Connect with Google Calendar
-      </button>
-      <br />
-      {/* Button to sync moments with Google Calendar after authentication */}
-      <button onClick={handleSyncWithGoogleCalendar}>
-        Sync Moments with Google Calendar
-      </button>
+      {showControls && (
+        <>
+          <button onClick={handleGoogleAuth}>
+            Connect with Google Calendar
+          </button>
+          <br />
+          <button onClick={handleSyncWithGoogleCalendar}>
+            Sync Moments with Google Calendar
+          </button>
+        </>
+      )}
     </div>
   );
 };
 
 export default MomentCalendar;
+

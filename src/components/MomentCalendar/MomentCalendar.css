@@ -1,0 +1,92 @@
+/* src/components/MomentCalendar/MomentCalendar.css */
+
+/* Overall calendar container */
+.react-calendar {
+    background-color: #1a1a1a;
+    color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.8);
+    padding: 10px;
+}
+  
+/* Calendar header (month/year title) */
+.react-calendar__navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+  
+.react-calendar__navigation button {
+    color: #ffffff;
+    background-color: #333;
+    border: none;
+    padding: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+  
+.react-calendar__navigation button:disabled {
+    background-color: #555;
+    color: #777;
+}
+  
+.react-calendar__navigation button:enabled:hover,
+.react-calendar__navigation button:enabled:focus {
+    background-color: #444;
+}
+  
+/* Calendar week days */
+.react-calendar__month-view__weekdays {
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+  
+.react-calendar__month-view__weekdays__weekday {
+    color: #ddd;
+    padding: 10px;
+}
+  
+/* Calendar days */
+.react-calendar__tile {
+    background-color: #2a2a2a;
+    color: #ffffff;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 5px;
+    cursor: pointer;
+}
+  
+.react-calendar__tile:enabled:hover,
+.react-calendar__tile:enabled:focus {
+    background-color: #333;
+}
+  
+.react-calendar__tile--now {
+    background-color: #4caf50;
+    color: white;
+}
+  
+.react-calendar__tile--active {
+    background-color: #2196f3;
+    color: white;
+}
+  
+/* Customization for tiles with events (optional) */
+.react-calendar__tile--hasEvent {
+    background-color: #ff5722;
+    color: white;
+}
+  
+/* Calendar month and year dropdowns */
+  .react-calendar__navigation__label {
+    color: #ffffff;
+}
+  
+/* Calendar week numbers (if enabled) */
+.react-calendar__month-view__weekNumbers .react-calendar__tile {
+    background-color: #2a2a2a;
+    color: #ffffff;
+}
+  

@@ -1,0 +1,31 @@
+/* src/components/MomentList/MomentList.css */
+
+.moment-list-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+.moment-card {
+    background-color: #1a1a1a;
+    padding: 15px;
+    border-radius: 5px;
+    color: #fff;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.8);
+}
+  
+.moment-card img {
+    max-width: 300px;
+    max-height: 300px;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+  
+  

@@ -10,6 +10,7 @@ import MomentList from './components/MomentList/MomentList';
 import MomentDetails from './components/MomentDetails/MomentDetails';
 import MomentForm from './components/MomentForm/MomentForm';
 import MomentCalendar from './components/MomentCalendar/MomentCalendar';
+import MomentsPage from './components/MomentsPage/MomentsPage';
 
 import * as authService from '../src/services/authService'; 
 import * as momentService from './services/momentService';
@@ -100,7 +101,7 @@ const App = () => {
               path="/moments/:momentId/edit" 
               element={<EditMomentPage />} 
             />
-            <Route path="/calendar" element={<MomentCalendar />} />
+            <Route path="/calendar" element={<MomentCalendar moments={moments} showControls={true} />} />   
           </>
         ) : (
           <Route path="/" element={<Landing />} />

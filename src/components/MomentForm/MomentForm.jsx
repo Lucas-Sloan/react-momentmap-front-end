@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as momentService from '../../services/momentService';
+import './MomentForm.css';
 
 const MomentForm = ({ initialData = {}, onSubmit }) => {
   const [formData, setFormData] = useState({
