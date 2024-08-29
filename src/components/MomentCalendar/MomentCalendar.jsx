@@ -63,15 +63,14 @@ const MomentCalendar = ({ showControls = true, showTitle = true }) => {
         tileContent={({ date, view }) => view === 'month' && renderMomentsOnDate(date)}
       />
       {showControls && (
-        <>
+        <div className="calendar-controls">
           <button onClick={handleGoogleAuth}>
             Connect with Google Calendar
           </button>
-          <br />
           <button onClick={handleSyncWithGoogleCalendar}>
             Sync Moments with Google Calendar
           </button>
-        </>
+        </div>
       )}
     </div>
   );

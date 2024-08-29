@@ -6,29 +6,31 @@
     align-items: center;
     padding: 20px;
 }
-  
+
 h1 {
     text-align: center;
 }
-  
+
 .dashboard-content {
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
     width: 100%;
     max-width: 1200px;
+    gap: 20px;
 }
-  
+
 .moment-form,
 .moment-list,
 .moment-calendar {
-    width: 30%;
+    width: 100%;
 }
-  
+
 .moment-list {
     display: flex;
     flex-direction: column;
 }
-  
+
 .moment-card {
     background-color: #1a1a1a;
     padding: 15px;
@@ -40,11 +42,26 @@ h1 {
     align-items: center;
     text-align: center;
 }
-  
+
 .moment-card img {
     width: 80%;
     height: auto;
     border-radius: 5px;
     margin-bottom: 10px;
 }
-  
+
+@media (min-width: 1024px) {
+    .dashboard-content {
+        flex-direction: row;
+        gap: 60px;
+    }
+
+    .moment-form,
+    .moment-list {
+        width: 25%;
+    }
+
+    .moment-calendar {
+        width: 50%;
+    }
+}
