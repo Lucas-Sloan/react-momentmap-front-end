@@ -1,7 +1,6 @@
 //src/services/calendarService.js
 const BASE_URL = `${import.meta.env.VITE_EXPRESS_BACKEND_URL}/calendar`;
 
-// src/services/calendarService.js
 const syncWithGoogleCalendar = async (moments) => {
     try {
       const token = localStorage.getItem('token'); // Ensure token is retrieved correctly

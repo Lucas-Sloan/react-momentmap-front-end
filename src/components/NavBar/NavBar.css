@@ -1,5 +1,4 @@
 /* src/components/NavBar/NavBar.css */
-
 .navbar {
     display: flex;
     justify-content: space-between;
@@ -32,13 +31,16 @@
     gap: 2rem;
 }
   
-.navbar-links a {
+.navbar-links a,
+.navbar-links span {
     color: #ffffff;
     text-decoration: none;
     transition: color 0.3s ease;
+    cursor: pointer;
 }
   
-.navbar-links a:hover {
+.navbar-links a:hover,
+.navbar-links span:hover {
     color: #b0b0b0;
 }
   
@@ -53,9 +55,9 @@
     border-radius: 5px;
     text-decoration: none;
     transition: background-color 0.3s ease;
+    cursor: pointer;
 }
   
 .navbar-signout:hover {
     background-color: #c9302c;
 }
-  
