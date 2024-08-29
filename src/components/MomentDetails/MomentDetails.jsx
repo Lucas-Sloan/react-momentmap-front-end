@@ -52,12 +52,12 @@ const MomentDetails = () => {
         const newGuest = await guestService.create(momentId, guestData);
         updatedGuests = [...moment.guests, newGuest];
       }
-      setMoment({ ...moment, guests: updatedGuests });
+      setMoment((prevMoment) => ({ ...prevMoment, guests: updatedGuests }));
     } catch (error) {
       console.error('Error adding or updating guest:', error);
     }
   };
-
+  
   const handleScheduleSubmit = async (scheduleData) => {
     try {
       let updatedSchedule;
@@ -71,12 +71,25 @@ const MomentDetails = () => {
         const newEvent = await scheduleService.create(momentId, scheduleData);
         updatedSchedule = [...moment.schedule, newEvent];
       }
-      setMoment({ ...moment, schedule: updatedSchedule });
+  
+      updatedSchedule.sort((a, b) => {
+        const parseTime = (time) => {
+          const [hourMin, period] = time.split(' ');
+          let [hour, minute] = hourMin.split(':').map(Number);
+          if (period === 'P.M.' && hour !== 12) hour += 12;
+          if (period === 'A.M.' && hour === 12) hour = 0;
+          return hour * 60 + minute;
+        };
+  
+        return parseTime(a.time) - parseTime(b.time);
+      });
+  
+      setMoment((prevMoment) => ({ ...prevMoment, schedule: updatedSchedule }));
     } catch (error) {
       console.error('Error adding or updating event:', error);
     }
   };
-
+  
   const handleDeleteGuest = async (guestId) => {
     try {
       await guestService.remove(momentId, guestId);
