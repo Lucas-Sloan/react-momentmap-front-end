@@ -1,0 +1,66 @@
+.signin-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    background-color: #1e1e1e;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+}
+  
+.signin-modal-content {
+    padding: 20px;
+}
+  
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+  
+.form-group {
+    margin-bottom: 15px;
+}
+  
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+  
+input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+  
+.signin-button {
+    width: 100%;
+    padding: 10px;
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+  
+.signin-button:hover {
+    background-color: #444;
+}
+  
+.signin-register {
+    text-align: center;
+    margin-top: 20px;
+}
+  
+.signin-register a {
+    color: #007bff;
+    text-decoration: none;
+}
+  
+.signin-register a:hover {
+    text-decoration: underline;
+}

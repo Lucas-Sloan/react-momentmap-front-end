@@ -1,14 +1,15 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import * as authService from '../../services/authService';
+import './SignupForm.css';
 
-const SignupForm = (props) => {
+const SignupForm = ({ setUser, onClose }) => {
   const navigate = useNavigate();
-  const [message, setMessage] = useState(['']);
+  const [message, setMessage] = useState('');
   const [formData, setFormData] = useState({
     username: '',
+    email: '',
     password: '',
-    passwordConf: '',
   });
 
   const updateMessage = (msg) => {
@@ -23,62 +24,64 @@ const SignupForm = (props) => {
     e.preventDefault();
     try {
       const newUserResponse = await authService.signup(formData);
-      props.setUser(newUserResponse.user);
+      setUser(newUserResponse.user);
+      onClose();
       navigate('/');
     } catch (err) {
       updateMessage(err.message);
     }
   };
 
-  const { username, password, passwordConf } = formData;
+  const { username, email, password } = formData;
 
   const isFormInvalid = () => {
-    return !(username && password && password === passwordConf);
+    return !(username && email && password);
   };
 
   return (
-    <main>
-      <h1>Sign Up</h1>
-      <p>{message}</p>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="username">Username:</label>
-          <input
-            type="text"
-            id="name"
-            value={username}
-            name="username"
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <label htmlFor="password">Password:</label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            name="password"
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <label htmlFor="confirm">Confirm Password:</label>
-          <input
-            type="password"
-            id="confirm"
-            value={passwordConf}
-            name="passwordConf"
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <button disabled={isFormInvalid()}>Sign Up</button>
-          <Link to="/">
-            <button>Cancel</button>
-          </Link>
-        </div>
-      </form>
-    </main>
+    <div className="signup-modal">
+      <div className="signup-modal-content">
+        <h2>Sign up</h2>
+        <form onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label htmlFor="username">Username</label>
+            <input
+              type="text"
+              id="username"
+              value={username}
+              name="username"
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              value={email}
+              name="email"
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="password">Password</label>
+            <input
+              type="password"
+              id="password"
+              value={password}
+              name="password"
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <button type="submit" className="signup-button" disabled={isFormInvalid()}>
+            Register
+          </button>
+        </form>
+      </div>
+    </div>
   );
 };
 

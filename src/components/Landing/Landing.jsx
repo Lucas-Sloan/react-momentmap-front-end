@@ -1,9 +1,8 @@
-//src/components/Landing/Landing.jsx
+// src/components/Landing/Landing.jsx
 import './Landing.css'; 
-import { Link } from 'react-router-dom'; 
 import mapIcon from '../../assets/Moment-Map-Icon-inverse.png';
 
-const Landing = () => {
+const Landing = ({ openSigninModal, openSignupModal }) => {
   return (
     <main className="landing-container">
       <h1 className="landing-title">Welcome to Moment Map</h1>
@@ -11,7 +10,8 @@ const Landing = () => {
         <img src={mapIcon} alt="Map Icon" />
       </div>
       <p className="landing-text">
-        <Link to="/signup" className="landing-link">Sign up</Link> or <Link to="/signin" className="landing-link">Sign in</Link> to track your moments
+        <span className="landing-link" onClick={openSignupModal}>Sign up</span> or 
+        <span className="landing-link" onClick={openSigninModal}> Sign in</span> to track your moments
       </p>
     </main>
   );

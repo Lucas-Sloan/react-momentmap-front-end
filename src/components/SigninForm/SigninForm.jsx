@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import * as authService from '../../services/authService';
+import './SigninForm.css';
 
-const SigninForm = (props) => {
+const SigninForm = ({ setUser, onClose }) => {
   const navigate = useNavigate();
-  const [message, setMessage] = useState(['']);
+  const [message, setMessage] = useState('');
   const [formData, setFormData] = useState({
     username: '',
     password: '',
@@ -23,8 +24,8 @@ const SigninForm = (props) => {
     e.preventDefault();
     try {
       const user = await authService.signin(formData);
-      console.log(user);
-      props.setUser(user);
+      setUser(user);
+      onClose();
       navigate('/');
     } catch (err) {
       updateMessage(err.message);
@@ -32,40 +33,38 @@ const SigninForm = (props) => {
   };
 
   return (
-    <main>
-      <h1>Log In</h1>
-      <p>{message}</p>
-      <form autoComplete="off" onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="email">Username:</label>
-          <input
-            type="text"
-            autoComplete="off"
-            id="username"
-            value={formData.username}
-            name="username"
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <label htmlFor="password">Password:</label>
-          <input
-            type="password"
-            autoComplete="off"
-            id="password"
-            value={formData.password}
-            name="password"
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <button>Log In</button>
-          <Link to="/">
-            <button>Cancel</button>
-          </Link>
-        </div>
-      </form>
-    </main>
+    <div className="signin-modal">
+      <div className="signin-modal-content">
+        <h2>Sign in</h2>
+        <form autoComplete="off" onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label htmlFor="username">Username</label>
+            <input
+              type="text"
+              autoComplete="off"
+              id="username"
+              value={formData.username}
+              name="username"
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="password">Password</label>
+            <input
+              type="password"
+              autoComplete="off"
+              id="password"
+              value={formData.password}
+              name="password"
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <button type="submit" className="signin-button">Sign in</button>
+        </form>
+      </div>
+    </div>
   );
 };
 
