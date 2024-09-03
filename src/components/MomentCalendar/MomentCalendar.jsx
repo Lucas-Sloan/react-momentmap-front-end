@@ -40,7 +40,7 @@ const MomentCalendar = ({ showControls = true, showTitle = true }) => {
     const token = localStorage.getItem('token');
     document.cookie = `token=${token}; path=/`;
 
-    window.location.href = 'http://localhost:3000/auth/google';
+    window.location.href = 'https://moment-map.netlify.app/auth/google';
   };
 
   const renderMomentsOnDate = (date) => {
