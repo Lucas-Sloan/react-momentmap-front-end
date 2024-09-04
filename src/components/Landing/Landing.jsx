@@ -1,4 +1,3 @@
-// src/components/Landing/Landing.jsx
 import './Landing.css'; 
 import mapIcon from '../../assets/Moment-Map-Icon-inverse.png';
 

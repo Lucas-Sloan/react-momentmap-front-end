@@ -1,4 +1,3 @@
-// src/components/MomentsPage.jsx
 import { useState, useEffect } from 'react';
 import MomentList from '../../components/MomentList/MomentList';
 import MomentForm from '../../components/MomentForm/MomentForm';

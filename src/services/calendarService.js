@@ -1,4 +1,3 @@
-//src/services/calendarService.js
 const BASE_URL = `${import.meta.env.VITE_EXPRESS_BACKEND_URL}/calendar`;
 
 const syncWithGoogleCalendar = async (moments) => {

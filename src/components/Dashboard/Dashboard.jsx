@@ -1,4 +1,3 @@
-// src/components/Dashboard/Dashboard.jsx
 import { AuthedUserContext } from '../../App';
 import { useContext, useState, useEffect } from 'react';
 import MomentForm from '../MomentForm/MomentForm';

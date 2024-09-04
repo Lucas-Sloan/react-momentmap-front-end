@@ -1,4 +1,3 @@
-//src/components/ScheduleForm/ScheduleForm.jsx
 import { useState, useEffect } from 'react';
 
 const ScheduleForm = ({ initialData = {}, onSubmit, onCancel, isEditing }) => {

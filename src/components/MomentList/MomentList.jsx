@@ -1,4 +1,3 @@
-// src/components/MomentList/MomentList.jsx
 import { Link } from 'react-router-dom';
 import './MomentList.css';
 

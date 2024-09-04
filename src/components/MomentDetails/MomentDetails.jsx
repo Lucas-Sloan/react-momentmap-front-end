@@ -1,4 +1,3 @@
-// src/components/MomentDetails/MomentDetails.jsx
 import { useParams, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import * as momentService from '../../services/momentService';

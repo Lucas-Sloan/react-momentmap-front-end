@@ -1,4 +1,3 @@
-// src/components/MomentCalendar/MomentCalendar.jsx
 import { useState, useEffect } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
@@ -82,4 +81,3 @@ const MomentCalendar = ({ showControls = true, showTitle = true }) => {
 };
 
 export default MomentCalendar;
-
