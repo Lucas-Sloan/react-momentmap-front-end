@@ -38,15 +38,8 @@ const MomentCalendar = ({ showControls = true, showTitle = true }) => {
 
   const handleGoogleAuth = () => {
     const token = localStorage.getItem('token');
-    if (!token) {
-      console.error('No token found in localStorage');
-      return;
-    }
-  
-    // Securely set the cookie
-    document.cookie = `token=${token}; path=/; SameSite=Lax; Secure`;
-  
-    // Redirect to Google OAuth
+    document.cookie = `token=${token}; path=/`;
+
     window.location.href = 'https://moment-map-1e3caa864534.herokuapp.com/auth/google';
   };
 
